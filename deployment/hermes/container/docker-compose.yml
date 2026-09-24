@@ -1,0 +1,22 @@
+services:
+  hermes:
+    build:
+      context: .
+      dockerfile: Dockerfile.feishu
+    image: ${HERMES_IMAGE:-hermes:latest}
+    container_name: ${HERMES_CONTAINER_NAME:-hermes}
+    command: gateway run
+    env_file:
+      - ../configuration/.env
+    ports:
+      - "127.0.0.1:${HERMES_GATEWAY_PORT:-8642}:8642"
+      - "127.0.0.1:${HERMES_DASHBOARD_PORT:-9119}:9119"
+    volumes:
+      - ${HERMES_DATA_DIR:-../runtime}:/data
+      - ${COMPANY_DOCS_DIR:-../../../company-docs}:/workspace/company-docs:ro
+      - ${WORKSPACE_DIR:-../../../workspace}:/workspace/work
+      - ${ENVIRONMENT_RULE_DIR:-../../../environment_rule}:/workspace/envs/giteerepo:ro
+      - ${AGENT_SKILLS_DIR:-../../../agent-skills}:/workspace/agent-skills:ro
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+    restart: unless-stopped

@@ -1,0 +1,170 @@
+version: 3
+mode:
+  unattended: true
+  approval_required: false
+  block_action: reject_and_log
+  continue_other_independent_tasks: true
+execution:
+  remote_runner_required: false
+  policy_check_required: false
+  direct_execution_allowed: true
+  agent_self_assessment_required: true
+  enforcement_mode: advisory_when_not_using_optional_tools
+  optional_methods:
+  - direct_ssh
+  - ssh_config_alias
+  - docker_exec_then_ssh
+  - direct_http
+  - kubectl
+  - docker_cli
+  - database_client
+  - protocol_client
+  - project_script
+  - invoke_remote_runner_optional
+  - remote_runner_optional
+defaults:
+  timeout_seconds: 300
+  audit_base_dir: /workspace/work/behavior/remote-runner
+  control_dir: /workspace/work/behavior/control
+  ssh_key: /workspace/secrets/giteerepo/ssh/hermes_ed25519
+  ssh_config: /workspace/envs/giteerepo/ssh/config
+  known_hosts: /workspace/envs/giteerepo/ssh/known_hosts
+risk_actions:
+  L0: ALLOW
+  L1: ALLOW
+  L2: ALLOW_WITH_AUDIT
+  L3: ALLOW_WITH_AUDIT
+  L4: BLOCK
+sandbox:
+  execution_host: testenv-25
+  containers:
+  - protocoljmeter
+  - protocoljmeterdebian
+  - protocoljmeterrpm
+  cleanup:
+    enabled_only_with_flag: true
+    allowed_path: /root/yfdata/hermes-tests
+    require_task_id_path: true
+task_scope:
+  remote_root: /root/yfdata/hermes-tests
+  require_task_id_for_destructive_operations: true
+  allowed_resource_prefixes:
+  - autotest-
+  - hermes-test-
+  - qa-test-
+  - nightly-
+  - test-
+protected_paths:
+- /
+- /boot
+- /dev
+- /etc
+- /home
+- /lib
+- /lib64
+- /opt
+- /proc
+- /root
+- /run
+- /sbin
+- /srv
+- /sys
+- /usr
+- /var
+- /var/lib/docker
+- /workspace/envs
+- /workspace/secrets
+always_block_patterns:
+- reboot
+- shutdown
+- poweroff
+- halt
+- mkfs
+- wipefs
+- fdisk
+- parted
+- dd if=
+- ':(){ :|:& };:'
+- docker system prune
+- docker volume prune
+- docker image prune
+- docker container prune
+- docker compose down -v
+- docker-compose down -v
+- kubectl delete namespace
+- kubectl delete ns
+- kubectl delete crd
+- kubectl delete pv
+- kubectl delete clusterrole
+- kubectl delete clusterrolebinding
+- drop database
+- drop schema
+- drop table
+- truncate table
+- alter user
+- drop user
+- grant all
+- git clean -fdx
+l1_task_write_patterns:
+- 'mkdir '
+- 'touch '
+- 'cp '
+- 'mv '
+- 'tee '
+- cat >
+- 'printf '
+- 'echo '
+l2_audit_patterns:
+- 'curl '
+- --request post
+- --request put
+- --request delete
+- --request patch
+- ' -x post'
+- ' -x put'
+- ' -x delete'
+- ' -x patch'
+- --data
+- ' -d '
+- 'authorization:'
+- 'cookie:'
+- password
+- token
+- 'mysql '
+- 'psql '
+- redis-cli
+- docker exec
+- docker restart
+- docker compose restart
+- docker-compose restart
+- docker build
+- docker run
+- docker stop
+- systemctl restart
+- systemctl stop
+- kubectl exec
+- kubectl cp
+- kubectl port-forward
+- kubectl rollout restart
+- kubectl apply
+- kubectl patch
+- helm upgrade
+- apt install
+- apt-get install
+- yum install
+- dnf install
+- apk add
+- pip install
+- npm install
+- 'mvn '
+- 'cargo '
+- go get
+- go test
+- sed -i
+- 'tee '
+- '>'
+l3_database_patterns:
+- insert into
+- ' update '
+- delete from
+- replace into

@@ -1,0 +1,15 @@
+用途：Hermes 镜像构建与服务启动入口说明。
+
+容器启动文件位于 `container/docker-compose.yml`，飞书扩展镜像定义位于
+`container/Dockerfile.feishu`，非敏感配置位于 `configuration/`，团队规范位于
+`governance/`。
+
+Docker 挂载规则：
+- `company-docs`：只读，提供产品基础功能、接口和协议资料。
+- `environment_rule`：只读，提供环境配置、SSH 主机校验和安全规则。
+- `agent-skills`：只读，提供团队 Skill。
+- `workspace`：可写，存放需求、任务执行产物和报告。
+- `deployment/hermes/runtime`：可写，存放 Hermes 运行时状态，禁止提交 Git。
+
+不要在 Compose、镜像文件、配置模板或挂载目录中硬编码真实密码、Token、API Key
+或私钥。

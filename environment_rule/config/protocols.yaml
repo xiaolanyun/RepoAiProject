@@ -1,0 +1,43 @@
+version: 1
+
+execution_host: testenv-25
+
+containers:
+  protocoljmeter:
+    protocols:
+      - alpine
+      - cargo
+      - cocoapods
+      - composer
+      - conan
+      - docker
+      - generic
+      - gitlfs
+      - go
+      - gradle
+      - helm
+      - huggingface
+      - maven
+      - npm
+      - nuget
+      - pub
+      - pypi
+    images:
+      amd64: docker-hub.gitee.work/gitee-poc/protocoljmeter:0319-88-amd64
+      arm64: docker-hub.gitee.work/gitee-poc/protocoljmeter:0319-88-arm64
+
+  protocoljmeterdebian:
+    protocols:
+      - debian
+      - conda
+      - ohpm
+    images:
+      amd64: docker-hub.gitee.work/gitee-poc/protocoljmeterdebian:326-25-amd64
+      arm64: docker-hub.gitee.work/gitee-poc/protocoljmeterdebian:326-25-arm64
+
+  protocoljmeterrpm:
+    protocols:
+      - rpm
+    images:
+      amd64: docker-hub.gitee.work/gitee-poc/protocoljmeterrpm:0318-14-amd64
+      arm64: docker-hub.gitee.work/gitee-poc/protocoljmeterrpm:0318-14-arm64

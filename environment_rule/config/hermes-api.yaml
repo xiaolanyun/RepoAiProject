@@ -1,0 +1,9 @@
+version: 1
+
+container: hermes
+base_url: http://127.0.0.1:8642/v1
+health_url: http://127.0.0.1:8642/health
+models_url: http://127.0.0.1:8642/v1/models
+dashboard_url: http://127.0.0.1:9119
+api_key_env: HERMES_API_KEY
+model: hermes-agent
