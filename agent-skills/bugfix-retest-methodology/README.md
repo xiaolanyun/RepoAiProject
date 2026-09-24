@@ -10,7 +10,7 @@ Bug 修复复测方法论（代码确认/部署确认/行为验证/基线残留�
 
 - `~/.agents/skills/bugfix-retest-methodology/`（用户级，OpenCode/Hermes 等）
 - 仓库级 `.agents/skills/bugfix-retest-methodology/`
-- 框架的共享技能目录（如 `<framework-root>\agent-skills\`）
+- 框架共享目录（如 `<framework-root>\agent-skills\`）
 
 只需保证目录内 `SKILL.md` 完整，agent 按 frontmatter 的 `name/description` 路由加载。
 
@@ -25,7 +25,7 @@ Bug 修复复测方法论（代码确认/部署确认/行为验证/基线残留�
 
 | 资源 | 用途 |
 |---|---|
-| 被测环境地址 + 凭证 | 行为验证 |
+| 被测环境地址 + 已授权 credential_ref | 行为验证 |
 | 代码仓库只读访问 | fetch + 修复提交 diff 确认 |
 | 日志访问途径 | 500 异常定位 |
 | 验证对象的当前基线 | 快照与恢复 |
@@ -37,4 +37,4 @@ Bug 修复复测方法论（代码确认/部署确认/行为验证/基线残留�
 
 ## 版本
 
-- 1.0（2026-09-23）：初始版本，源自同步策略带宽限速与大模型扫描 Bug 修复复测实战
+- 1.1：接入框架工作区、环境规则与证据位置；保留原有复测判定方法。

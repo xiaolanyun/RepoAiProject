@@ -2,8 +2,7 @@
 name: bugfix-retest-methodology
 description: Retest methodology after a developer claims a bug is fixed. Covers code-diff confirmation, deployment version verification, environment behavior validation, the baseline-residue misjudgment trap in PUT/write tests, cross-environment verification when deploy is interrupted, and HTTP status semantics (200/400/500). Use whenever retesting bugfixes or re-verifying previously reported issues.
 metadata:
-  version: "1.0"
-  source_task: "同步策略带宽限速/大模型扫描 Bug 修复复测"
+  version: "1.1"
 ---
 
 # Bug 修复复测方法论
@@ -16,12 +15,24 @@ metadata:
 - 修复部署进行中或部分部署（多副本滚动），需要判断验证结果有效性
 - 此前上报的 Bug 需要重新确认现状（含撤销误判）
 
+## 框架接入
+
+先遵循框架根目录的 `AGENTS.md`，再读取
+`giteerepo-test-delivery/SKILL.md`。从当前任务对应的 `workspace/` 版本目录
+读取需求、原用例和既有结论；把复测脚本放在 `test_run/_scripts/`，把基线快照、
+命令证据和恢复证明放在当前任务的 `test_run/evidence/`，把复测报告放在
+`test_run/results/`。
+
+行为复测前必须从 `environment_rule/` 解析当前环境和安全边界。不得用
+`environment/`、`tools/` 或 archive 中的旧信息推断版本、目标或权限。若复测
+需要补充测试用例或测试点，遵循 `giteerepo-test-delivery` 的输出规范。
+
 ## 核心规则
 
 ### 规则 1：复测三步确认（缺一不可）
 
 ```
-① 代码确认：fetch 最新分支 → git log 找修复提交 → git show 看具体 diff
+① 代码确认：读取获准的代码版本或提交范围 → git log 找修复提交 → git show 看具体 diff
    （确认修复改了什么、覆盖哪个路径、是否完整）
 ② 部署确认：环境版本号（rev）+ 服务实例启动时间 + 修复提交时间对照
    （修复提交晚于部署则验证无效；多副本时新旧实例并存）
@@ -29,6 +40,9 @@ metadata:
 ```
 
 **优先级**：代码不完整 → 直接判"修复不完整"；代码完整但行为未变 → 先怀疑部署未生效（再查部署），排除后才判修复无效。
+
+代码确认只使用获授权的只读工作区或远端引用。需要获取更新时可以执行只读
+`fetch`，但不得为了复测而 checkout、merge、reset 或修改业务源码。
 
 ### 规则 2：基线残留误判陷阱（最重要）
 
@@ -113,6 +127,7 @@ metadata:
 - 共享环境的其他用户残留配置**不擅自清理**（可能他人正在使用）；仅恢复自己造成的改动
 - 误判修正只改自己产出的结论，他人结论另行沟通
 - 凭证不进入复测记录
+- 在任何写入前记录目标、基线、风险级别、恢复步骤和证据位置；环境规则不允许的操作不因“复测”而获得授权
 
 ## 示例
 

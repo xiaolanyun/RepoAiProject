@@ -8,6 +8,19 @@ description: Analyze GiteeRepo requirements, design import-ready test cases and 
 Use this skill after the repository entry rules in `AGENTS.md` have routed the
 task to the relevant requirement, product documentation, and environment files.
 
+## Framework locations
+
+Treat the directory containing `AGENTS.md` as the framework root. Requirements,
+test cases, test points, and delivery reports belong under the relevant version
+in `workspace/`. Put execution scripts in `test_run/_scripts/`, evidence in a
+task-specific directory under `test_run/evidence/`, and structured results or
+execution reports under `test_run/results/`.
+
+`company-docs/` is read-only background material, not an environment source.
+For any environment access or mutation, use `environment_rule/` and its safety
+rule; never fall back to the retired `environment/`, `test/`, `tools/`, or
+historical archive directories.
+
 ## Workflow
 
 1. Establish the requirement facts: product, version, requirement ID, stated
@@ -20,7 +33,8 @@ task to the relevant requirement, product documentation, and environment files.
    [test-case-and-point-output.md](references/test-case-and-point-output.md).
 4. Before execution, perform a task-scoped preflight: confirm the test target,
    authenticated identity, access scope, baseline state, evidence path, and
-   restoration method. Read environment safety rules before any mutation.
+   restoration method. State the intended target, action, risk, restore plan,
+   and evidence location before any environment mutation.
 5. Execute only the authorized, feasible subset. Separate configuration review,
    observed runtime behavior, and test-framework readiness in the conclusion.
 6. Produce an evidence-based report: scope, environment, method, results,
@@ -37,8 +51,8 @@ Put task-operation scripts in `test_run/_scripts/` by lifecycle:
 - `recovery/` for restoration and cleanup;
 - `utilities/` for reusable helpers.
 
-An environment-changing script requires a paired recovery step and a recorded
-post-restore verification.
+An environment-changing script requires a paired recovery step, recorded
+post-restore verification, and no embedded credential value.
 
 ## Deliverable boundaries
 

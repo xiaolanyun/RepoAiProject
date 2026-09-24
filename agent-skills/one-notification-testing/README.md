@@ -10,7 +10,7 @@ Repo↔One 消息通知集成测试执行知识库。
 
 - `~/.agents/skills/one-notification-testing/`（用户级，OpenCode/Hermes 等）
 - 仓库级 `.agents/skills/one-notification-testing/`
-- 框架的共享技能目录（如 `<framework-root>\agent-skills\`）
+- 框架共享目录（如 `<framework-root>\agent-skills\`）
 
 只需保证目录内 `SKILL.md` 完整，agent 按 frontmatter 的 `name/description` 路由加载。
 
@@ -26,11 +26,11 @@ Repo↔One 消息通知集成测试执行知识库。
 
 | 资源 | 用途 |
 |---|---|
-| One 门户地址 + 登录账号 | UI 登录保存会话 |
+| One 门户地址 + credential_ref | 获授权的认证与会话建立 |
 | k8s 访问配置 | Pod 日志观测 |
 | 应用认证头（App-Id/App-Secret/Username） | Pod 内 curl support-channel 验证 |
 | Repo 事件触发入口 | 备份/垃圾回收等事件源 |
 
 ## 版本
 
-- 1.0（2026-09-23）：初始版本，源自 46 版本对接 One 通知方式接口测试任务
+- 1.1：将 46 版本经验改为待核验基线，并接入框架环境、脚本、证据与交付物规则。

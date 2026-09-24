@@ -15,14 +15,19 @@ Apply these rules before handling work in this repository.
    environment files.
 3. Identify the task's product, version, requirement, and delivery type before
    reading additional material. Do not load unrelated historical files.
-4. Search `company-docs/gitee-docs/` by requirement keywords to find basic
+4. When approved local product documents are available, search
+   `company-docs/gitee-docs/` by requirement keywords to find basic
    functionality and interface information. For protocol work, also search
-   `company-docs/giteerepo/protocol-guides/`.
+   `company-docs/protocol-guides/`. The public distribution intentionally
+   excludes proprietary documents; if they are absent, record that limitation
+   rather than inventing product facts.
 5. Read only the requirement, test case, and report materials relevant to the
    requested version under `workspace/`.
 6. For environment access or execution, read `environment_rule/README.txt`,
-   then the relevant files under `environment_rule/config/`,
-   `environment_rule/docs/`, and `environment_rule/bin/`.
+   then the locally provisioned relevant files under `environment_rule/config/`,
+   `environment_rule/docs/`, and `environment_rule/bin/`. The public edition
+   excludes site-specific inventory and service definitions; missing local
+   configuration blocks environment actions and must not be guessed.
 
 ## Operating boundaries
 
