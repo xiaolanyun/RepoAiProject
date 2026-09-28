@@ -28,53 +28,53 @@ def main() -> int:
     protocols = load("protocols.yaml")
     hermes_api = load("hermes-api.yaml")
 
-    host_lines = ["# Server Inventory", ""]
+    host_lines = ["# Server Inventory / 服务器清单", ""]
     for name, host in (inventory.get("hosts") or {}).items():
         host_lines.extend([
             f"## {name}",
             "",
             f"- IP: `{host.get('ip')}`",
-            f"- SSH user: `{host.get('ssh_user')}`",
-            f"- SSH port: `{host.get('ssh_port')}`",
-            f"- Remote workdir: `{host.get('remote_workdir')}`",
-            f"- Roles: `{', '.join(host.get('roles') or [])}`",
+            f"- SSH user / SSH 用户: `{host.get('ssh_user')}`",
+            f"- SSH port / SSH 端口: `{host.get('ssh_port')}`",
+            f"- Remote workdir / 远程工作目录: `{host.get('remote_workdir')}`",
+            f"- Roles / 角色: `{', '.join(host.get('roles') or [])}`",
             "",
         ])
     write("server-inventory.md", "\n".join(host_lines))
 
-    service_lines = ["# GiteeRepo Environments", ""]
+    service_lines = ["# GiteeRepo Environments / GiteeRepo 环境", ""]
     for name, service in (services.get("services") or {}).items():
         service_lines.extend([
             f"## {name}",
             "",
-            f"- Type: `{service.get('type')}`",
+            f"- Type / 类型: `{service.get('type')}`",
             f"- URL: `{service.get('url')}`",
-            f"- Execution host: `{service.get('execution_host')}`",
-            f"- Credential reference: `{service.get('credential_ref')}`",
+            f"- Execution host / 执行主机: `{service.get('execution_host')}`",
+            f"- Credential reference / 凭据引用: `{service.get('credential_ref')}`",
             "",
         ])
 
-    service_lines.extend(["# Protocol Containers", ""])
+    service_lines.extend(["# Protocol Containers / 协议容器", ""])
     for name, cfg in (protocols.get("containers") or {}).items():
         service_lines.extend([
             f"## {name}",
             "",
-            f"- Protocols: `{', '.join(cfg.get('protocols') or [])}`",
-            f"- AMD64 image: `{(cfg.get('images') or {}).get('amd64')}`",
-            f"- ARM64 image: `{(cfg.get('images') or {}).get('arm64')}`",
+            f"- Protocols / 协议: `{', '.join(cfg.get('protocols') or [])}`",
+            f"- AMD64 image / AMD64 镜像: `{(cfg.get('images') or {}).get('amd64')}`",
+            f"- ARM64 image / ARM64 镜像: `{(cfg.get('images') or {}).get('arm64')}`",
             "",
         ])
     write("giteerepo-environments.md", "\n".join(service_lines))
 
     api_lines = [
-        "# Hermes Call Information",
+        "# Hermes Call Information / Hermes 调用信息",
         "",
-        f"- Container: `{hermes_api.get('container')}`",
+        f"- Container / 容器: `{hermes_api.get('container')}`",
         f"- Base URL: `{hermes_api.get('base_url')}`",
         f"- Health URL: `{hermes_api.get('health_url')}`",
         f"- Models URL: `{hermes_api.get('models_url')}`",
         f"- Dashboard URL: `{hermes_api.get('dashboard_url')}`",
-        f"- API key variable: `{hermes_api.get('api_key_env')}`",
+        f"- API key variable / API 密钥环境变量: `{hermes_api.get('api_key_env')}`",
         "",
         "```powershell",
         '$key = (Get-Content "$env:LOCAL_SECRET_FILE" | '

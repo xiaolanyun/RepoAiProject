@@ -1,5 +1,30 @@
 # Team AI Framework Entry Rules
 
+# 团队 AI 框架入口规则
+
+处理本仓库任务前，先遵守以下规则。
+
+## 必读顺序（中文）
+
+1. 阅读本文件和根目录 `README.md`。
+2. 需求、测试分析、用例、执行或报告任务读取 `agent-skills/giteerepo-test-delivery/SKILL.md`；开发者声称修复 Bug 后的复测另读 `agent-skills/bugfix-retest-methodology/SKILL.md`；Repo 到 One 通知任务另读 `agent-skills/one-notification-testing/SKILL.md`；新增或修改 GiteeRepo 测试环境先读 `agent-skills/giteerepo-environment-onboarding/SKILL.md`。
+3. 先确定产品、版本、需求和交付类型，只读取相关资料，不加载无关历史文件。
+4. 若本地提供了获批的产品文档，以需求关键词检索 `company-docs/gitee-docs/` 中的功能与接口资料；协议任务还应检索 `company-docs/protocol-guides/`。公开版不包含企业内部文档，缺失时记录限制，不能编造产品事实。仅读取 `workspace/` 中当前版本的需求、用例和报告。
+5. 访问或操作环境时，先读 `environment_rule/README.txt`，再读本地配置的 `environment_rule/config/`、`environment_rule/docs/`、`environment_rule/bin/` 中的相关文件。公开版不包含具体环境清单及服务定义；若本地未配置，不得猜测目标或执行环境操作。
+
+在 Hermes 容器中，`environment_rule/` 对应 `/workspace/envs/giteerepo/`，`agent-skills/` 对应 `/workspace/agent-skills/`，`company-docs/` 对应 `/workspace/company-docs/`，`workspace/` 对应 `/workspace/work/`；若实际布局不同，应先检查挂载，不能直接判定规则或配置缺失。
+
+## 操作边界（中文）
+
+- `environment_rule/config/` 是当前环境定义，`environment_rule/docs/UNATTENDED-SAFETY.md` 是执行安全边界。按任务与解析出的目标选择 SSH、HTTP、kubectl、数据库、协议客户端或脚本；不强制统一执行器。所有方式均遵守 L0～L4 与命令审计：L0～L3 在授权范围内执行，L4 阻断并记录。
+- 配置中仅引用凭据；真实密码、API Key、令牌、Cookie 和私钥不得写入报告、脚本、用例或 Git。仅在任务需要时读取本地凭据机制，不输出无关凭据；若缺失，报告具体引用并请授权负责人通过获批的本地密钥存储提供。
+- 修改测试环境前说明目标、操作、风险、恢复方案和证据位置，并遵守环境安全规则。
+- `company-docs/` 仅供只读检索，Agent 不得修改。`environment/`、`test/`、`tools/` 是废弃目录，不用于新任务；改用 `environment_rule/` 和 `test_run/`。不得把 `archive/` 或历史任务产物当作当前事实。
+
+## 交付边界（中文）
+
+仅提供用户要求的交付物，例如澄清后的需求与疑问、测试用例、测试点、执行计划、证据或测试报告。生成或修改用例及测试点时，遵守测试交付 Skill 的格式规则。
+
 Apply these rules before handling work in this repository.
 
 ## Mandatory discovery order
