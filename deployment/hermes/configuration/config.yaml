@@ -120,7 +120,7 @@ browser:
   inactivity_timeout: 120
   command_timeout: 30
   record_sessions: false
-  allow_private_urls: false
+  allow_private_urls: true
   engine: auto
   auto_local_for_private_urls: true
   cdp_url: ''
@@ -432,46 +432,32 @@ approvals:
   mcp_reload_confirm: false
   destructive_slash_confirm: true
   deny:
-    - rm
-    - rm *
-    - rmdir
-    - rmdir *
-    - del
-    - del *
-    - erase
-    - erase *
-    - Remove-Item
-    - Remove-Item *
-    - rd
-    - rd *
+    - reboot*
+    - shutdown*
+    - poweroff*
+    - halt*
+    - rm -rf /
     - format
     - format *
     - diskpart
     - diskpart *
     - mkfs*
-    - truncate
-    - truncate *
-    - shred
-    - shred *
-    - wipe
-    - wipe *
-    - git clean*
-    - find * -delete*
+    - wipefs*
+    - fdisk*
+    - parted*
     - docker system prune*
     - docker volume prune*
     - docker container prune*
     - docker image prune*
     - docker network prune*
-    - docker rm*
-    - docker rmi*
     - docker compose down *--volumes*
-    - kubectl delete*
-    - helm uninstall*
-    - helm delete*
+    - kubectl delete namespace*
+    - kubectl delete crd*
+    - kubectl delete pv*
 command_allowlist: []
 hooks_auto_accept: false
 security:
-  allow_private_urls: false
+  allow_private_urls: true
   redact_secrets: true
   tirith_enabled: true
   tirith_path: tirith

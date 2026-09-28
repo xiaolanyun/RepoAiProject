@@ -15,6 +15,7 @@ services:
       - ${HERMES_DATA_DIR:-../runtime}:/data
       - ${COMPANY_DOCS_DIR:-../../../company-docs}:/workspace/company-docs:ro
       - ${WORKSPACE_DIR:-../../../workspace}:/workspace/work
+      - ../../../AGENTS.md:/workspace/work/AGENTS.md:ro
       - ${ENVIRONMENT_RULE_DIR:-../../../environment_rule}:/workspace/envs/giteerepo:ro
       - ${AGENT_SKILLS_DIR:-../../../agent-skills}:/workspace/agent-skills:ro
     environment:

@@ -27,7 +27,6 @@ def main() -> int:
     inventory = load("inventory.yaml")
     services = load("services.yaml")
     protocols = load("protocols.yaml")
-    policy = load("remote-runner-policy.yaml")
     hermes_api = load("hermes-api.yaml")
 
     hosts = inventory.get("hosts") or {}
@@ -42,9 +41,6 @@ def main() -> int:
         if ip in seen_ips:
             raise RuntimeError(f"Duplicate IP {ip}: {seen_ips[ip]} and {name}")
         seen_ips[ip] = name
-
-        if host.get("allow_remote_runner") and not host.get("remote_workdir"):
-            raise RuntimeError(f"remote_workdir is missing for {name}")
 
     endpoints = inventory.get("service_endpoints") or {}
     for name, endpoint in endpoints.items():
@@ -68,19 +64,12 @@ def main() -> int:
     if protocol_host not in hosts:
         raise RuntimeError(f"Unknown protocol execution host: {protocol_host}")
 
-    sandbox = policy.get("sandbox") or {}
-    if sandbox.get("execution_host") not in hosts:
-        raise RuntimeError("Policy sandbox execution host is not in inventory")
-
     if not hermes_api.get("base_url"):
         raise RuntimeError("Hermes API base_url is missing")
 
     required_runtime_files = [
         ROOT / "ssh" / "config",
         ROOT / "ssh" / "known_hosts",
-        ROOT / "bin" / "remote_runner.sh",
-        ROOT / "bin" / "config_query.py",
-        ROOT / "bin" / "policy_check.py",
     ]
     for path in required_runtime_files:
         if not path.exists():

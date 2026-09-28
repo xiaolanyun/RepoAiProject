@@ -9,6 +9,8 @@ Docker 挂载规则：
 - `environment_rule`：只读，提供环境配置、SSH 主机校验和安全规则。
 - `agent-skills`：只读，提供团队 Skill。
 - `workspace`：可写，存放需求、任务执行产物和报告。
+- 根目录 `AGENTS.md`：只读挂载到 `/workspace/work/AGENTS.md`，供 Hermes
+  进入工作区时加载框架入口规则。
 - `deployment/hermes/runtime`：可写，存放 Hermes 运行时状态，禁止提交 Git。
 
 不要在 Compose、镜像文件、配置模板或挂载目录中硬编码真实密码、Token、API Key

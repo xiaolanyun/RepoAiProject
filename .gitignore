@@ -33,6 +33,7 @@ deployment/hermes/runtime/
 !environment_rule/
 !environment_rule/credentials.env
 .audit/
+environment_rule/generated/
 
 # Public edition: site-specific assets remain local.
 company-docs/*

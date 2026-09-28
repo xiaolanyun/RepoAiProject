@@ -29,10 +29,20 @@ Apply these rules before handling work in this repository.
    excludes site-specific inventory and service definitions; missing local
    configuration blocks environment actions and must not be guessed.
 
+When running inside the Hermes container, resolve framework paths as follows:
+`environment_rule/` = `/workspace/envs/giteerepo/`, `agent-skills/` =
+`/workspace/agent-skills/`, `company-docs/` = `/workspace/company-docs/`, and
+`workspace/` = `/workspace/work/`. If the container layout differs, inspect
+the actual mounts before concluding that a rule or configuration is missing.
+
 ## Operating boundaries
 
 - Treat `environment_rule/config/` as the current environment definition and
   `environment_rule/docs/UNATTENDED-SAFETY.md` as the execution safety boundary.
+- Choose SSH, HTTP, kubectl, database, protocol client, or a task script from
+  the resolved target and task needs. No unified runner or runner-policy file is
+  required. Apply the same L0-L4 boundary and command audit to every method:
+  L0-L3 proceed within scope; L4 is blocked and recorded.
 - Use credential references from configuration. Never place real passwords,
   API keys, tokens, cookies, or private keys in a report, script, test case,
   or Git change.

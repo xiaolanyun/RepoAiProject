@@ -5,7 +5,7 @@
 核心原则：
 
 - 执行方式由 Agent 自主选择；
-- 不强制使用 `Invoke-RemoteRunner.ps1` 或 `remote_runner.sh`；
+- 远程操作直接通过适合当前环境的客户端执行；
 - L0～L3 不需要人工审核；
 - L4 直接熔断；
 - 更换执行工具不得绕过安全边界；
@@ -13,36 +13,21 @@
 
 ---
 
-## 1. 可选执行方式
+## 1. 执行方式
 
 Agent 可以根据环境和任务选择：
 
 ```text
-直接 SSH
-SSH 配置别名
-docker exec hermes 后直接 SSH
+直接 SSH 或 SSH 配置别名
 HTTP 客户端
 kubectl
 Docker CLI
 数据库客户端
 协议客户端
 项目脚本
-Invoke-RemoteRunner.ps1（可选）
-remote_runner.sh（可选）
-policy_check.py（可选预检）
 ```
 
-优先级不是固定的。Agent 应选择当前最可靠、最简单、可验证的方式。
-
-统一脚本存在以下问题时，可以立即切换：
-
-- 参数不兼容；
-- 引号或编码问题；
-- 依赖缺失；
-- 脚本自身 Bug；
-- 容器挂载问题；
-- 审计目录故障；
-- 不支持当前协议或任务。
+Agent 应选择当前最可靠、最简单、可验证的方式。
 
 ---
 
@@ -202,7 +187,7 @@ L0～L3 不等待用户确认。L4 不询问是否放行。
 - 修改数据库用户或权限；
 - 修改私钥、证书、CA 信任链或任何未明确指定的凭据；
 - 删除凭据键，或修改当前任务未明确指定的 credential_ref；
-- 自动修改 remote-runner-policy、安全策略、RBAC、kubeconfig 或全局执行工具；
+- 自动修改安全策略、RBAC、kubeconfig 或全局执行工具；
 - 删除或覆盖其他环境的 inventory、services、protocols 条目；
 - 其他任务、其他项目或共享数据的删除；
 - 任何范围不明的破坏性命令。
@@ -229,7 +214,7 @@ L4 操作仍由 Agent 永久熔断，Agent 不得通过 SSH、Docker、HTTP、
 
 ## 9. 直接执行审计
 
-不使用 `remote_runner` 时，Agent 应在当前任务目录创建：
+Agent 应在当前任务目录创建：
 
 ```text
 audit/commands.log
@@ -309,14 +294,14 @@ BatchMode=yes
 
 ### 协议环境
 
-可以直接 `docker exec` 协议容器，也可使用可选执行器。当前 task_id 范围内清理按 L3 执行。
+可以根据当前配置使用 `docker exec` 或其他合适的协议客户端。当前 task_id 范围内清理按 L3 执行。
 
 ---
 
 ## 12. 失败与降级
 
 1. 相同方式最多重试一次。
-2. 可从包装脚本切换到直接 SSH。
+2. 当前方式受阻时，可切换符合本规则的其他执行方式。
 3. 可从宿主机工具切换到 Hermes 容器工具。
 4. 可从直连切换到 execution_host。
 5. 单个失败继续其他独立任务。
@@ -324,24 +309,3 @@ BatchMode=yes
 7. 不得通过降级扩大权限或范围。
 
 ---
-
-## 13. 可选工具定位
-
-以下文件保留，但不再是强制入口：
-
-```text
-<framework-root>\environment_rule\bin\Invoke-RemoteRunner.ps1
-<framework-root>\environment_rule\bin\remote_runner.sh
-<framework-root>\environment_rule\bin\policy_check.py
-<framework-root>\environment_rule\config\remote-runner-policy.yaml
-```
-
-作用：
-
-- 提供别名解析；
-- 提供统一日志；
-- 提供安全预检；
-- 处理 Hermes 容器私钥权限；
-- 在适合的场景下快速复用。
-
-这些工具故障时，不得阻断 Agent 使用其他符合本规则的方式执行。

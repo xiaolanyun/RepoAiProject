@@ -37,7 +37,6 @@ def main() -> int:
             f"- SSH user: `{host.get('ssh_user')}`",
             f"- SSH port: `{host.get('ssh_port')}`",
             f"- Remote workdir: `{host.get('remote_workdir')}`",
-            f"- remote_runner enabled: `{host.get('allow_remote_runner')}`",
             f"- Roles: `{', '.join(host.get('roles') or [])}`",
             "",
         ])

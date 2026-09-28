@@ -7,8 +7,9 @@ description: Register or update a declared GiteeRepo test environment using the 
 
 Use this skill only when the user explicitly asks to add or change a named test
 environment. Read `environment_rule/README.txt`, `config/inventory.yaml`,
-`config/services.yaml`, `config/remote-runner-policy.yaml`, and
-`docs/UNATTENDED-SAFETY.md` before editing anything.
+`config/services.yaml`, and `docs/UNATTENDED-SAFETY.md` before editing anything.
+Read `config/protocols.yaml` when onboarding protocol resources. The unified
+runner and its policy file are not required for environment registration.
 
 ## Framework boundary
 

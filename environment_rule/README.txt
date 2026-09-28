@@ -17,9 +17,10 @@ and validation utilities. It intentionally keeps these related materials in
 one place so members can onboard consistently.
 
 Contents:
-- config/: registered test hosts, services, protocols, and execution policy.
+- config/: registered test hosts, services, and protocols. The L0-L4 execution
+  boundary is in docs/UNATTENDED-SAFETY.md, not a runner policy file.
 - docs/: unattended-operation safety boundary.
-- bin/: configuration query and validation helpers.
+- bin/: configuration validation, documentation, and runtime check helpers.
 - ssh/config and ssh/known_hosts: SSH client settings and verified host identities.
 - credentials.env: the required credential variable names only; values are
   placeholders.
@@ -40,3 +41,7 @@ To delegate this to AI, provide the environment purpose, test/non-production
 designation, service URL, SSH host/port/user, execution host, credential_ref,
 and the verified SSH host fingerprint. Do not paste passwords or private keys
 into an AI prompt; provide them only through the approved local secret store.
+
+The public edition omits `config/inventory.yaml`, `config/services.yaml`,
+`ssh/config`, and `ssh/known_hosts`. Provision these locally before running
+`bin/validate-config.py` or attempting environment operations.
